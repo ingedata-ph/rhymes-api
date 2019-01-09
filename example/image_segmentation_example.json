@@ -1,0 +1,76 @@
+{
+  "batch": {
+    "batch_name": "example.zip",
+    "exported_at": "2019-01-09T14:06:27+08:00",
+    "annotations": [
+      {
+        "task_id": 3099604,
+        "name": "Room1408.jpg",
+        "_meta": {
+          "enrichment": {
+            "outsourcer": 9,
+            "treated_at": "2019-01-09T05:57:41Z",
+            "time_spent": 31
+          },
+          "qc": {
+            "outsourcer": 10,
+            "treated_at": "2019-01-09T05:59:41Z",
+            "time_spent": 10
+          }
+        },
+        "objects": [
+          {
+            "category": "Table",
+            "type": "polygon",
+            "data": [
+              {
+                "x": 251,
+                "y": 62
+              },
+              {
+                "x": 574,
+                "y": 86
+              },
+              {
+                "x": 463,
+                "y": 300
+              },
+              {
+                "x": 98,
+                "y": 212
+              }
+            ]
+          },
+          {
+            "category": "Chair",
+            "type": "boundingBox",
+            "data": {
+              "xmin": 717,
+              "ymin": 76,
+              "xmax": 951,
+              "ymax": 241
+            }
+          },
+          {
+            "category": "Sofa",
+            "type": "line",
+            "data": {
+              "x1": 91,
+              "y1": 400,
+              "x2": 411,
+              "y2": 546
+            }
+          },
+          {
+            "category": "Window",
+            "type": "point",
+            "data": {
+              "x": 551,
+              "y": 345
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
