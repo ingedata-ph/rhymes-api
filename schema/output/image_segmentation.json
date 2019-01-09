@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "version": "0.1",
+  "title": "Schema of an exported file describing the work done on Image Segmentation",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "MetaContent":{
+      "type": "object",
+      "required": ["outsourcer", "treated_at", "time_spent"],
+      "properties": {
+        "outsourcer": {
+          "description": "Identifiant of the outsourcer agent working on this step",
+          "type": "number"
+        },
+        "treated_at": {
+          "description": "Date of the treatment",
+          "type": "string",
+          "format": "date-time"
+        },
+        "time_spent": {
+          "description": "Time spent to treat the step in seconds",
+          "type": "number"
+        }
+      }
+    },
+    "BoundingBoxRectData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["xmin", "xmax", "ymin", "ymax"],
+      "properties": {
+        "xmin": { "type": "number" },
+        "xmax": { "type": "number" },
+        "ymin": { "type": "number" },
+        "ymax": { "type": "number" }
+      }
+    },
+    "Segment": {
+      "description": "Segmented object found in this annotated image",
+      "required": ["type", "category", "data"],
+      "properties": {
+        "category": {
+          "description": "Category of the segmentation",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of geometry used for the segmentation.",
+          "enum": ["boundingBox", "polygon", "line", "point", "pixelMask"]
+        }
+      },
+      "if": {
+        "properties": {
+          "type": { "enum": ["boundingBox"] }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": { "$ref": "#/definitions/BoundingBoxRectData"}
+        }
+      },
+      "else": {
+        "required": ["data"]
+      }
+    },
+    "BatchType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batch_name", "exported_at", "annotations"],
+      "properties": {
+        "batch_name": {
+          "description": "Name of the batch. usually name of the zipfile transfered in input, or date of the reception of the files, or name given in API. Is unique for each batch",
+          "type": "string"
+        },
+        "exported_at": {
+          "description": "Date of creation of this document. This is the date of the completion of the export job.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "annotations": {
+          "required": ["image", "objects", "_meta", "name", "task_id"],
+          "description": "List of annotated images",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "description": "Unique ID of the annotation in the Ingedata's Rhymes system",
+                "type": "number"
+              },
+              "name": {
+                "description": "Name of the image",
+                "type": "string"
+              },
+              "image": {
+                "description": "URL to the image of related to this annotation. The image is stored in the Cloud Ingedata and may be not accessible according to privacy configuration given by the client.",
+                "type": "string"
+              },
+              "_meta": {
+                "description": "Meta content about the treatment of the image",
+                "type": "object",
+                "properties": {
+                  "qc": { "$ref": "#/definitions/MetaContent", "optional": true },
+                  "enrichment": { "$ref": "#/definitions/MetaContent", "optional": true },
+                  "enrichment1": { "$ref": "#/definitions/MetaContent", "optional": true },
+                  "enrichment2": { "$ref": "#/definitions/MetaContent", "optional": true }
+                }
+              },
+              "objects": {
+                "description": "Segmented object found in this annotated image",
+                "type": "array",
+                "items": { "$ref": "#/definitions/Segment" }
+              }
+            }
+          }
+        }
+      }
+
+    }
+  },
+  "properties": {
+    "batch": {
+      "description": "A batch of annotated images",
+      "$ref": "#/definitions/BatchType"
+    }
+  }
+}
