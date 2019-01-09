@@ -5,5 +5,5 @@ VALIDATORS = {
 }
 
 VALIDATORS.each do |schema, example|
-  system("jsonlint --validate #{schema} #{example}")
+  system("jsonlint #{example} --validate #{schema} --environment json-schema-draft-07")
 end
