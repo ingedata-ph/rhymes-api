@@ -1,0 +1,9 @@
+{
+  "name": "rhymes-api",
+  "version": "1.0.0",
+  "description": "List of schema, documents and validators for integration with Ingedata's Rhymes plateform",
+  "main": "index.js",
+  "repository": "git@github.com:ingedata-ph/rhymes-api.git",
+  "author": "Yacine Petitprez <yacine.petitprez@ingedata.net>",
+  "license": "MIT"
+}
